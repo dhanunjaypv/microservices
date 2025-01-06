@@ -1,5 +1,8 @@
 package com.sailotech.employee.util;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +29,7 @@ public class EmployeeUtil {
 		return employeeDto;
 	}
 
-	public EmployeeServiceResponse prepareSuccessResponse(EmployeeDto employeeResponseDto) {
+	public EmployeeServiceResponse prepareSuccessResponse(Object employeeResponseDto) {
 		EmployeeServiceResponse employeeServiceResponse = new EmployeeServiceResponse();
 		employeeServiceResponse.setCode("EMP-000");
 		employeeServiceResponse.setMessage("Successfully completed");
@@ -34,6 +37,14 @@ public class EmployeeUtil {
 		employeeServiceResponse.setData(employeeResponseDto);
 
 		return employeeServiceResponse;
+	}
+
+	public List<EmployeeDto> mapToDtoList(List<Employee> employeeResponseList) {
+		List<EmployeeDto> dtos = employeeResponseList
+				  .stream()
+				  .map(user -> modelMapper.map(user, EmployeeDto.class))
+				  .collect(Collectors.toList());
+		return dtos;
 	}
 
 }

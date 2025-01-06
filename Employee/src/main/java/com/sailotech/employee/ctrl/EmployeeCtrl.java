@@ -1,14 +1,15 @@
 package com.sailotech.employee.ctrl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.netflix.discovery.DiscoveryClient;
 import com.sailotech.employee.model.dto.EmployeeDto;
 import com.sailotech.employee.model.dto.EmployeeServiceResponse;
 import com.sailotech.employee.model.dto.ProjectServiceResponse;
@@ -17,6 +18,7 @@ import com.sailotech.employee.service.ProjectServiceRestConsumer;
 import com.sailotech.employee.util.EmployeeUtil;
 
 @RestController
+@RequestMapping("/employee")
 public class EmployeeCtrl {
 
 	@Autowired
@@ -25,19 +27,14 @@ public class EmployeeCtrl {
 	@Autowired
 	EmployeeUtil employeeUtil;
 
-	@Autowired
-	DiscoveryClient discoveryClient;
-	
-	@Autowired
-	LoadBalancerClient loadBalancerClient;
-	
+
 	@Autowired
 	ProjectServiceRestConsumer projectServiceRestConsumer;
 	
 	
 
 
-	@PostMapping("/emp/save")
+	@PostMapping("/save")
 	public EmployeeServiceResponse saveEmployeeInfo(@RequestBody EmployeeDto employeeDTO) {
 		EmployeeDto employeeResponseDto = employeeService.saveEmployeeInfo(employeeDTO);
 		
@@ -45,7 +42,7 @@ public class EmployeeCtrl {
 
 	}
 
-	@GetMapping("/emp/get")
+	@GetMapping("/getById")
 	public EmployeeServiceResponse getEmployeeInfo(@RequestParam Integer employeeId) {
 		EmployeeDto employeeResponseDto = employeeService.getEmployeeInfo(employeeId);
 
@@ -53,7 +50,7 @@ public class EmployeeCtrl {
 
 	}
 
-	@GetMapping("/emp/myproject")
+	@GetMapping("/myproject")
 	public ProjectServiceResponse getEmployeeProjectInfo(@RequestParam String projectID) {
 		
 		
@@ -62,6 +59,15 @@ public class EmployeeCtrl {
 		return projectServiceResponse;
 
 	}
+	
+	@GetMapping("/getAll")
+	public EmployeeServiceResponse getAllEmployeesInfo() {
+		List<EmployeeDto> employeeResponseDto = employeeService.getAllEmployeesInfo();
+
+		return employeeUtil.prepareSuccessResponse(employeeResponseDto);
+
+	}
+
 
 	
 }
