@@ -1,5 +1,7 @@
 package com.sailotech.employee.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.sailotech.employee.model.dto.EmployeeDto;
@@ -13,6 +15,8 @@ public interface EmployeeService {
 	EmployeeDto getEmployeeInfo(Integer employeeId);
 
 	ProjectServiceResponse getProjectInformation(String projectID);
+
+	List<EmployeeDto> getAllEmployeesInfo();
 	
 	
 

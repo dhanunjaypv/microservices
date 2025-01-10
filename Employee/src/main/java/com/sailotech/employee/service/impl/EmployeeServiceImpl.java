@@ -1,6 +1,7 @@
 package com.sailotech.employee.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,6 +59,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		projectServiceResponse.setStatus("FAIL");
 		return projectServiceResponse;
 
+	}
+
+	@Override
+	public List<EmployeeDto> getAllEmployeesInfo() {
+		List<Employee> employeeResponseList = employeeRepo.findAll();
+		return employeeUtil.mapToDtoList(employeeResponseList);
 	}
 
 }
